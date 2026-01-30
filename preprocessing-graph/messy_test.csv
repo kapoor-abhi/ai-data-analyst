@@ -1,0 +1,7 @@
+user_id,age,role,salary
+101,25,Admin,50000
+102,30,admin,60000
+103,unknown,User,55000
+104,45,user,52000
+105,120,USER,10000000
+106,N/A,Guest,50000

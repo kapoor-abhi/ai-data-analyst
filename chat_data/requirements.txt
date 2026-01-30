@@ -1,0 +1,21 @@
+# Web Framework
+fastapi>=0.100.0
+uvicorn[standard]
+python-multipart
+
+# AI & Orchestration
+langchain-groq
+langgraph
+python-dotenv
+langgraph-checkpoint-postgres
+
+
+psycopg[binary,pool]
+
+
+pandas
+matplotlib
+seaborn
+
+
+requests

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: agent_memory
+    ports:
+      - "5433:5432"
+    healthcheck:
+      # This ensures the database is fully ready to accept connections 
+      # before the app starts migrations
+      test: ["CMD-SHELL", "pg_isready -U user -d agent_memory"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    volumes:
+      # Mount the app folder for live-reloading during development
+      - ./app:/code/app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    # Force the app to run as root to avoid permission issues 
+    # when writing plots to the shared volume
+    user: "root"
+
+volumes:
+  postgres_data:
