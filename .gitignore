@@ -6,3 +6,4 @@ preprocessing-graph/.env
 ingestion-merge/.env
 .DS_Store
 .gitingore
+**/.DS_Store
