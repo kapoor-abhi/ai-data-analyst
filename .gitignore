@@ -4,3 +4,5 @@ preprocessing-graph/venv
 chat_data/.env
 preprocessing-graph/.env
 ingestion-merge/.env
+.DS_Store
+.gitingore
