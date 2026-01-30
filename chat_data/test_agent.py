@@ -3,9 +3,9 @@ import os
 import time
 
 URL = "http://localhost:8000"
-THREAD_ID = f"session_{int(time.time())}" # Unique thread ID per test run
+THREAD_ID = f"session_{int(time.time())}" 
 
-# 1. Create dummy CSV data
+
 csv_content = """date,sales,expenses,region
 2023-01-01,100,80,North
 2023-01-02,150,90,North

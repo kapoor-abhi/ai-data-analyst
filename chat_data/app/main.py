@@ -17,21 +17,21 @@ from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from psycopg_pool import AsyncConnectionPool
 from dotenv import load_dotenv
 
-# Import local modules
+
 from app.state import AgentState
 from app.tools import python_repl, get_csv_schema
 
 load_dotenv()
 
-# Setup logging
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Constants
+
 DB_URI = os.getenv("DATABASE_URL")
 SANDBOX_DIR = "/code/app/sandbox"
 
-# Ensure sandbox exists on startup
+
 if not os.path.exists(SANDBOX_DIR):
     os.makedirs(SANDBOX_DIR, exist_ok=True)
 
@@ -40,7 +40,7 @@ async def lifespan(app: FastAPI):
     """Handles DB migrations and connection pooling."""
     try:
         logger.info("Connecting to PostgreSQL for migrations...")
-        # Use autocommit=True to allow LangGraph to create indexes/tables
+
         async with await psycopg.AsyncConnection.connect(DB_URI, autocommit=True) as conn:
             checkpointer = AsyncPostgresSaver(conn)
             await checkpointer.setup()
@@ -49,14 +49,14 @@ async def lifespan(app: FastAPI):
         logger.error(f"Migration failed: {e}")
         raise e
 
-    # Initialize connection pool for the API
+
     async with AsyncConnectionPool(conninfo=DB_URI, max_size=20) as pool:
         app.state.pool = pool
         yield
 
 app = FastAPI(lifespan=lifespan)
 
-# --- AGENT SETUP ---
+
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
     temperature=0,
@@ -67,7 +67,7 @@ llm_with_tools = llm.bind_tools(tools)
 
 def call_model(state: AgentState):
     messages = state['messages']
-    # Inject System Message if not present
+
     if not any(isinstance(m, SystemMessage) for m in messages):
         sys_msg = SystemMessage(content=(
             "You are a Senior Data Analyst AI. You have access to a Python REPL.\n"
@@ -86,7 +86,7 @@ def should_continue(state: AgentState) -> Literal["tools", "__end__"]:
     last_message = state['messages'][-1]
     return "tools" if last_message.tool_calls else "__end__"
 
-# Define the Graph
+
 workflow = StateGraph(AgentState)
 workflow.add_node("agent", call_model)
 workflow.add_node("tools", ToolNode(tools))
@@ -94,13 +94,13 @@ workflow.set_entry_point("agent")
 workflow.add_conditional_edges("agent", should_continue)
 workflow.add_edge("tools", "agent")
 
-# --- ENDPOINTS ---
+
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     try:
         file_id = str(uuid.uuid4())[:8]
-        # Use absolute path for Docker consistency
+
         file_name = f"{file_id}_{file.filename}"
         full_path = os.path.join(SANDBOX_DIR, file_name)
         
@@ -128,7 +128,7 @@ async def chat(message: str = Form(...), thread_id: str = Form(...), file_path: 
             output = await graph.ainvoke(inputs, config)
             last_msg = output["messages"][-1].content
             
-            # Post-process plots: move from temp to unique filename
+
             plot_url = None
             temp_plot = os.path.join(SANDBOX_DIR, "temp_plot.png")
             if os.path.exists(temp_plot):
