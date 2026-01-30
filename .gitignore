@@ -1,6 +1,6 @@
 chat_data/venv
 ingestion-merge/venv
 preprocessing-graph/venv
+chat_data/.env
 preprocessing-graph/.env
 ingestion-merge/.env
-chat_data/.env
