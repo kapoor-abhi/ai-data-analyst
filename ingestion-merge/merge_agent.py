@@ -4,12 +4,10 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langgraph.graph import StateGraph, END
 import re
-
 llm = ChatGroq(
     model="llama-3.3-70b-versatile",
     temperature=0
 )
-
 class MergeState(TypedDict):
     """
     State specifically for the Merging Phase.
