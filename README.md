@@ -9,7 +9,7 @@ This project implements a sophisticated multi-agent system designed to automate 
 The system is designed as a series of specialized sub-agents. Each agent is responsible for a specific stage of the data pipeline, ensuring high accuracy and the ability to self-correct during code execution.
 
 <p align="center">
-  <img src="./screenshots/ingestion_architecture.png" alt="Ingestion Architecture" width="800">
+  <img src="./screenshots/ingestion_architecture.png" alt="Ingestion Architecture" width="300">
 </p>
 
 ### 1. Data Ingestion Agent
@@ -24,7 +24,7 @@ Designed for relational data tasks, the Merge Agent handles multi-file integrati
 *   **Code Generation:** It writes and executes the Pandas `merge()` logic to produce a unified dataframe for analysis.
 
 <p align="center">
-  <img src="./screenshots/merge_workflow.png" alt="Merge Workflow" width="800">
+  <img src="./screenshots/merge_workflow.png" alt="Merge Workflow" width="300">
 </p>
 
 ### 3. Preprocessing Agent (Deep Scanner)
@@ -34,7 +34,7 @@ The Preprocessing Agent is a three-stage pipeline focused on data quality.
 *   **The Engineer:** This node translates the strategy into linear, modern Python code. It avoids deprecated syntax and ensures all operations (like forward-filling or type-casting) are performed efficiently.
 
 <p align="center">
-  <img src="./screenshots/preprocessing_workflow.png" alt="Preprocessing Workflow" width="800">
+  <img src="./screenshots/preprocessing_workflow.png" alt="Preprocessing Workflow" width="300">
 </p>
 
 ### 4. Graph Agent
@@ -44,7 +44,7 @@ The Graph Agent focuses on automated Exploratory Data Analysis (EDA) and visuali
 *   **Artifact Generation:** Each chart is saved as a physical PNG file in the system sandbox for user review.
 
 <p align="center">
-  <img src="./screenshots/graph_visualization.png" alt="Graph Visualization" width="800">
+  <img src="./screenshots/graph_visualization.png" alt="Graph Visualization" width="300">
 </p>
 
 ### 5. Chat with Data Agent
@@ -54,7 +54,7 @@ The primary interface for the end-user, this agent allows for natural language q
 *   **Self-Correction Loop:** If the agent generates code that results in a runtime error, it observes the traceback and automatically regenerates the code to fix the issue.
 
 <p align="center">
-  <img src="./screenshots/analysis_workflow.png" alt="Analysis Workflow" width="800">
+  <img src="./screenshots/analysis_workflow.png" alt="Analysis Workflow" width="300">
 </p>
 
 ---
